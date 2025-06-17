@@ -11,17 +11,19 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
+
+    val rockButton: ImageView = findViewById(R.id.buttonRock)
+    val paperButton: ImageView = findViewById(R.id.buttonPaper)
+    val scissorsButton: ImageView = findViewById(R.id.buttonScissors)
+    val playerChoiceImageView: ImageView = findViewById(R.id.imageViewPlayer)
+    val computerChoiceImageView: ImageView = findViewById(R.id.imageViewComputer)
+    val resultTextView: TextView = findViewById(R.id.textViewResult)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val rockButton: ImageView = findViewById(R.id.buttonRock)
-        val paperButton: ImageView = findViewById(R.id.buttonPaper)
-        val scissorsButton: ImageView = findViewById(R.id.buttonScissors)
-        val playerChoiceImageView: ImageView = findViewById(R.id.imageViewPlayer)
-        val computerChoiceImageView: ImageView = findViewById(R.id.imageViewComputer)
-        val resultTextView: TextView = findViewById(R.id.textViewResult)
 
         rockButton.setOnClickListener {
             playGame("rock", playerChoiceImageView, computerChoiceImageView, resultTextView)
@@ -48,9 +50,9 @@ class MainActivity : AppCompatActivity() {
         val choices = listOf("rock", "paper", "scissors")
         playerChoiceImageView.setImageResource(getDrawableResource(playerChoice))
 
-        findViewById<ImageView>(R.id.buttonRock).isEnabled = false
-        findViewById<ImageView>(R.id.buttonPaper).isEnabled = false
-        findViewById<ImageView>(R.id.buttonScissors).isEnabled = false
+        rockButton.isEnabled = false
+        paperButton.isEnabled = false
+        scissorsButton.isEnabled = false
 
         Handler(Looper.getMainLooper()).postDelayed({
             val computerChoice = choices[Random.nextInt(choices.size)]
@@ -59,10 +61,15 @@ class MainActivity : AppCompatActivity() {
             val result = determineWinner(playerChoice, computerChoice)
             resultTextView.text = result
 
-            Toast.makeText(this, "You chose: $playerChoice, Computer chose: $computerChoice", Toast.LENGTH_SHORT).show()
-            findViewById<ImageView>(R.id.buttonRock).isEnabled = true
-            findViewById<ImageView>(R.id.buttonPaper).isEnabled = true
-            findViewById<ImageView>(R.id.buttonScissors).isEnabled = true
+            Toast.makeText(
+                this,
+                "You chose: $playerChoice, Computer chose: $computerChoice",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            rockButton.isEnabled = true
+            paperButton.isEnabled = true
+            scissorsButton.isEnabled = true
         }, 1000)
     }
 
@@ -85,8 +92,6 @@ class MainActivity : AppCompatActivity() {
             else -> "Computer Wins!"
         }
     }
-
-
 }
 
 
